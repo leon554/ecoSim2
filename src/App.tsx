@@ -3,6 +3,7 @@ import { ecs } from "./loigc/setup/setup"
 import { AgentComponents as AC, GeneralComponents as GC, FirmComponents as FC, SingletonComponents as sc} from "./loigc/ecs/components"
 import Agents from "./components/Agents"
 import Firms from "./components/Firms"
+import WorkOffers from "./components/WorkOffers"
 
 function App() {
 
@@ -26,20 +27,12 @@ function App() {
 
     return (
         <div className="w-full flex flex-col items-center p-5 gap-4">
-            <p>Version: {version}</p>
-            <div className="flex w-[80%] flex-wrap gap-2 bg-neutral-100 outline-1 rounded-md outline-neutral-200 p-2">
-                {workOffers.map(o => {
-                    return(
-                        <div className="text-xs outline-1 p-2 outline-neutral-300 rounded-md bg-neutral-200 flex-1 whitespace-nowrap">
-                            <p className="text-sm font-medium">Firm ID: {o.firmID}</p>
-                            <p>Tier: {o.labourTier}, Pay: ${o.pay}</p>
-                            <p>Avaliable Positions: {o.positionsAvaliable}</p>
-                        </div>
-                    )
-                })}
+            <p className="bg-indigo-200 rounded-2xl px-5 py-1">Tick: {version}</p>
+            <div className="w-ful grid justify-items-center max-md:grid-cols-1 grid-cols-3 gap-5">
+                <WorkOffers workOffers={workOffers}/>
+                <Agents agents={agents}/>
+                <Firms firms={firms}/>
             </div>
-            <Agents agents={agents}/>
-            <Firms firms={firms}/>
         </div>
     )
 }
