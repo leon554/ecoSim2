@@ -57,6 +57,7 @@ export default function Agents({agents}: Props) {
                                     <div className="text-xs mt-1">
                                         <p>Firm ID: {employment.firmID ?? "N/A"}</p>
                                         <p>Employed: {employment.isEmployed ? "Yes" : "No"}</p>
+                                        <p>Min Wage: ${employment.minWage}</p>
                                     </div>
                                 </div>  
                                 <div className="bg-neutral-300 rounded-md p-3 whitespace-nowrap grow">

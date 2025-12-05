@@ -2,7 +2,8 @@ import { ECS } from "entecs"
 import { DEATH_AGE, RETIREMENT_AGE } from "../util/constants"
 import { AgentComponents as ac, FirmComponents as fc, SingletonComponents as sc} from "./components"
 import type { WorkOffer } from "../util/types"
-import { getAgentsPerTier } from "./systemsUtil"
+import { getAgentsPerTier, getOffersPerTier } from "./systemsUtil"
+import { Events } from "./events"
 
 export function ageSystem(_: number, ecs: ECS) {
     const components = ecs.queryComponents([ac.Age])
@@ -58,4 +59,35 @@ export function postWorkOffersSystem(_: number, ecs: ECS){
     }
 
     ecs.getSingletonComponent(sc.WorkOffers).offers = [...offers]
+}
+
+export function acceptWorkOffersSystem(_: number, ecs: ECS){
+    const offersPerTier = getOffersPerTier(ecs)
+
+    //randomise workers
+    const workers = ecs.queryComponents([ac.Employment, ac.Skill])
+
+    for(const [id, employmet, skill] of workers){
+        const labourTier = skill.labourTier
+        const tierOffers = offersPerTier.get(labourTier)
+
+        if(!tierOffers || tierOffers.length == 0) continue
+
+        console.log("dssd")
+        const bestOffer = tierOffers[tierOffers.length - 1]
+
+        if(bestOffer.pay >= employmet.minWage){
+            employmet.firmID = bestOffer.firmID
+            employmet.isEmployed = true
+
+            bestOffer.positionsAvaliable--
+
+            if(bestOffer.positionsAvaliable <= 0){
+                tierOffers.pop()
+                offersPerTier.set(labourTier, tierOffers)
+            }
+
+            ecs.emitAndDispatch(new Events.OfferAccepted(id, bestOffer.firmID))
+        }
+    }
 }

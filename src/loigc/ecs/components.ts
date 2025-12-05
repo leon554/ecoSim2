@@ -27,6 +27,7 @@ export namespace AgentComponents{
     export class Employment{
         firmID: number | null = null
         isEmployed: boolean = false
+        minWage: number = 100
     }
 }
 
@@ -50,5 +51,9 @@ export namespace SingletonComponents{
     }
     export class WorkOffers{
         offers: WorkOffer[] = []
+    }
+    export class Logs{
+        allLogs: string[] = ["test"]
+        importantLogs: string[] = []
     }
 }

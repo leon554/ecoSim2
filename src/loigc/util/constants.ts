@@ -3,6 +3,7 @@ export const STARTING_SPENDING_AMT = 500
 export const STARTING_SAVINGS_AMT = 0
 export const STARTING_FIRM_CAPITAL = 5000
 export const STARTING_FIRM_PROFIT_MARGIN = 0.2
+export const MIN_WAGE = 100
 
 export const STARTING_WAGE_OFFERS: Record<number, number> = {
     1: 100,

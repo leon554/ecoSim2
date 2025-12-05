@@ -15,6 +15,7 @@ function App() {
     const firms = ecs.queryComponents([FC.Finance, FC.Labour, GC.Inventory])
 
     const workOffers = ecs.getSingletonComponent(sc.WorkOffers).offers
+    const logs = ecs.getSingletonComponent(sc.Logs).allLogs
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -32,6 +33,9 @@ function App() {
                 <WorkOffers workOffers={workOffers}/>
                 <Agents agents={agents}/>
                 <Firms firms={firms}/>
+                <p>
+                    sdf{logs.join(",")}
+                </p>
             </div>
         </div>
     )
